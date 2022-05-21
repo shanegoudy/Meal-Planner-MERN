@@ -22,6 +22,7 @@ const styles = {
 const NewRecipe = (props) => {
     const [ingrOptions, setIngrOptions] = useState([]);
     const [tagOptions, setTagOptions] = useState([]);
+    const [errors, setErrors] = useState({});
     const animatedComponents = makeAnimated();
     const navigate = useNavigate();
     
@@ -168,8 +169,14 @@ const NewRecipe = (props) => {
             .then(res=>{
                 console.log(newRecipe);
                 console.log(res.data);
-                navigate("/dashboard");
-            })
+                console.log(res.data.error);
+                if(res.data.error){
+                    setErrors(res.data.error.errors);
+                    console.log(res.data.error.errors);
+                } else {
+                    navigate('/dashboard');
+                }
+            })    
             .catch(err=>console.log(err))
     };
 
@@ -181,14 +188,34 @@ const NewRecipe = (props) => {
         <form onSubmit={onSubmitHandler}>
             <h2>Name:</h2>
             <input type="text" onChange = {(e)=>handleNameChange(e.target.value)}/>
+            <p>{
+                errors.name ? 
+                errors.name.message : null
+            }</p>
             <h2>Hyperlink:</h2>
             <input type="text" onChange = {(e)=>handleHyperChange(e.target.value)}/>
+            <p>{
+                errors.hyperlink ? 
+                errors.hyperlink.message : null
+            }</p>
             <h2>Ingredients:</h2>
             <CreatableSelect options={ingrOptions} isMulti components={animatedComponents} closeMenuOnSelect={false} onChange = {handleIngrChange} style={styles.select}/>
+            <p>{
+                errors.ingredients ? 
+                errors.ingredients.message : null
+            }</p>
             <h2>Instructions:</h2>
             <input type="textarea" onChange = {(e)=>handleInstrChange(e.target.value)} style={styles.instructions}/>
+            <p>{
+                errors.instructions ? 
+                errors.instructions.message : null
+            }</p>
             <h2>Tags:</h2>
             <CreatableSelect options={tagOptions} isMulti components={animatedComponents} closeMenuOnSelect={false} onChange = {handleTagsChange} style={styles.select}/>
+            <p>{
+                errors.categories ? 
+                errors.categories.message : null
+            }</p>
             <br/>
             <input type="submit"/>
         </form>

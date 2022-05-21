@@ -7,6 +7,7 @@ import Dashboard from './views/Dashboard';
 import NewRecipe from './views/NewRecipe';
 import Recipe from './views/Recipe';
 import MyPlan from './views/MyPlan';
+import EditRecipe from './views/EditRecipe';
 
 function App() {
   const [user, setUser] = useState({});
@@ -19,6 +20,7 @@ function App() {
           <Route element={<Dashboard user={user}/>} path="/dashboard"/>
           <Route element={<RegForm changeUser={setUser}/>} path="/register"/>
           <Route element={<NewRecipe user={user}/>} path="/recipes/new"/>
+          <Route element={<EditRecipe user={user}/>} path="/recipes/edit/:id"/>
           <Route element={<Recipe user={user}/>} path="/recipes/:id"/>
           <Route element={<MyPlan user={user}/>} path="/myplan"/>
         </Routes>

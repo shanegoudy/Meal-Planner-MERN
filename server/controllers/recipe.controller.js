@@ -33,8 +33,8 @@ module.exports.updateExistingRecipe = (req, res) => {
         req.body,
         { new: true, runValidators: true}
     )
-        .then(updateRecipe => {
-            req.json({ recipe: updatedRecipe })
+        .then(updatedRecipe => {
+            res.json({ recipe: updatedRecipe })
         })
         .catch((err) => {
             res.json({ message: 'Something went wrong', error: err })

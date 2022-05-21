@@ -17,7 +17,7 @@ const RecipeBook = (props) => {
     }, [])
     return (
         <>
-        <Header route="dashboard"/>
+        <Header route="recipeBook"/>
         {/* <div>
             {recipes.map((recipe, index) => {
                 return (

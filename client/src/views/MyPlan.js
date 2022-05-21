@@ -77,7 +77,7 @@ const Dashboard = (props) => {
     }, [])
     return (
         <>
-        <Header route="dashboard"/>
+        <Header route="myPlan"/>
         <div styles={styles.pin_container}>
             <h4>Mon:</h4>
             {recipes[0]}
