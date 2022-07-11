@@ -24,25 +24,34 @@ const styles = {
 
 const Dashboard = (props) => {
     const [recipes, setRecipes] = useState([]);
-    const user = props.user;
-    useEffect(()=> {
-        if(user=={}){
-            useNavigate('/')
-        }else{
-            axios.get('http://localhost:8000/api/recipes')
-                .then(res => {
-                    console.log(res);
-                    var recipeData = res.data.recipes;
-                    var rows = [];
-                    for(var i=0;i<recipeData.length;i++){
-                        rows.push(<RecipeCard key={i} recipe={recipeData[i]} user={user} size={"small"}/>);
-                    }
-                    console.log("rows:" + rows);
-                    setRecipes(rows);
-                    console.log(recipes);
-                })
-                .catch(err => console.log(err))
-        }
+    const [user, setUser] = useState({});
+    useEffect(() => {
+        axios.get("http://localhost:8000/api/user",
+            { withCredentials: true }
+        )
+            .then((res) => {
+                console.log(res.data);
+                setUser(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }, [])
+
+    useEffect(()=>{
+        axios.get('http://localhost:8000/api/recipes')
+            .then(res => {
+                console.log(res);
+                var recipeData = res.data.recipes;
+                var rows = [];
+                for(var i=0;i<recipeData.length;i++){
+                    rows.push(<RecipeCard key={i} recipe={recipeData[i]} user={user} size={"small"}/>);
+                }
+                console.log("rows:" + rows);
+                setRecipes(rows);
+                console.log(recipes);
+            })
+            .catch(err => console.log(err))
     }, [])
     return (
         <>

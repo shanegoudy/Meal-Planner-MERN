@@ -39,7 +39,8 @@ const RecipeSchema = new mongoose.Schema({
         type: String
     },
     createdBy: {
-        type: [[User.UserSchema]],
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
         required: [true, "Created by is required"]
     }
 });

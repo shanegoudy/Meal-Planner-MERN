@@ -39,32 +39,32 @@ const NewRecipe = (props) => {
         (
             async () => {
                 const data2 = await axios.get('http://localhost:8000/api/categories')
-                console.log("data2"+ data2)
-                var newTagOptions = []
-                for(var i=0; i<data2.data.categories.length; i++){
-                    newTagOptions.push(
-                        {
-                            value: data2.data.categories[i],
-                            label: data2.data.categories[i].name
-                        }
-                    )
-                }
-                setTagOptions(newTagOptions)
-                console.log("tagOptions:" + tagOptions)
+                    console.log("data2"+ data2)
+                    var newTagOptions = []
+                    for(var i=0; i<data2.data.categories.length; i++){
+                        newTagOptions.push(
+                            {
+                                value: data2.data.categories[i],
+                                label: data2.data.categories[i].name
+                            }
+                        )
+                    }
+                    setTagOptions(newTagOptions)
+                    console.log("tagOptions:" + tagOptions)
                 const data1 = await axios.get('http://localhost:8000/api/ingredients')
-                console.log("data1"+ data1)
-                var newIngrOptions = []
-                for(var i=0; i<data1.data.ingredients.length; i++){
-                    newIngrOptions.push(
-                        {
-                            value: data1.data.ingredients[i],
-                            label: data1.data.ingredients[i].name
-                        }
-                    )
-                }
-                setIngrOptions(newIngrOptions)
-                console.log("ingOptions:" + ingrOptions)
-                console.log("user:"+ props.user)
+                    console.log("data1"+ data1)
+                    var newIngrOptions = []
+                    for(var i=0; i<data1.data.ingredients.length; i++){
+                        newIngrOptions.push(
+                            {
+                                value: data1.data.ingredients[i],
+                                label: data1.data.ingredients[i].name
+                            }
+                        )
+                    }
+                    setIngrOptions(newIngrOptions)
+                    console.log("ingOptions:" + ingrOptions)
+                    console.log("user:"+ props.user)
             }
         )()
     },[])

@@ -1,10 +1,13 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const app = express();
 
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+app.use(cookieParser());
 
 require('./config/mongoose.config');
 
@@ -19,4 +22,4 @@ MeasurementRoutes(app);
 const CategoryRoutes = require("./routes/category.routes");
 CategoryRoutes(app);
 
-app.listen(8000, () => console.log("Listening on port: 8000"));
+app.listen(process.env.MY_PORT, () => console.log('Listening on port:' + process.env.MY_PORT));

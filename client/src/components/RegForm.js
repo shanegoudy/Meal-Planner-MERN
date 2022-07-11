@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import logo from '../assets/images/logo.png';
+
+const styles = {
+    logo : {
+        height: '6vh',
+        margin: '10vh .5vh .5vh .5vh'
+    }
+}
 
 const RegForm = (props) => {
     const [firstName, setFirstName] = useState(""); 
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState({});
-    
-    // const [confirmPassword, setConfirmPassword] = useState("");
     const navigate = useNavigate();
     const onSubmitHandler = (e) => {
         e.preventDefault();
@@ -18,13 +25,13 @@ const RegForm = (props) => {
             lastName,
             email,
             password,
-            // confirmPassword
+            confirmPassword
         })
             .then(res=>{
                 console.log(res.data.error);
                 if(res.data.error){
                     setErrors(res.data.error.errors);
-                    console.log(res.data.error.errors);
+                    console.log("errors:" + res.data.error.errors);
                 } else {
                     navigate('/');
                 }
@@ -37,7 +44,8 @@ const RegForm = (props) => {
     
     return (
         <form onSubmit={onSubmitHandler}>
-            <h1>Register</h1>
+            <img src={logo} alt="logo" style={styles.logo}/>
+            <h2>Registration</h2>
             <p>
                 <label>First Name</label><br/>
                 <input type="text" onChange = {(e)=>setFirstName(e.target.value)}/>
@@ -70,10 +78,14 @@ const RegForm = (props) => {
                 errors.password ? 
                 errors.password.message : null
             }</p>
-            {/* <p>
+            <p>
                 <label>Confirm Password</label><br/>
                 <input type="text" onChange = {(e)=>setConfirmPassword(e.target.value)}/>
-            </p> */}
+            </p>
+            <p>{
+                errors.confirmPassword ? 
+                errors.confirmPassword.message : null
+            }</p>
             <input type="submit"/>
         </form>
     )

@@ -1,9 +1,11 @@
 const RecipeController = require('../controllers/recipe.controller');
+const {authenticate} = require("../config/jwt.config");
 
 module.exports = app => {
     app.get('/api/recipes', RecipeController.findAllRecipes);
     app.get('/api/recipes/:id', RecipeController.findOneRecipe);
-    app.put('/api/recipes/:id', RecipeController.updateExistingRecipe);
-    app.post('/api/recipes', RecipeController.createNewRecipe);
-    app.delete('/api/recipes/:id', RecipeController.deleteAnExistingRecipe);
+    app.get("/api/recipesbyuser/:email", authenticate, RecipeController.findAllRecipesByUser);
+    app.put('/api/recipes/:id', authenticate, RecipeController.updateExistingRecipe);
+    app.post('/api/recipes', authenticate, RecipeController.createNewRecipe);
+    app.delete('/api/recipes/:id', authenticate, RecipeController.deleteAnExistingRecipe);
 }

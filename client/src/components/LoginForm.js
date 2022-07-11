@@ -1,33 +1,57 @@
 import React, { useState } from 'react';
 import { useNavigate, Link} from 'react-router-dom';
 import axios from 'axios';
+import logo from '../assets/images/logo.png';
+
+const styles = {
+    logo : {
+        height: '6vh',
+        margin: '10vh .5vh .5vh .5vh'
+    }
+}
 
 const LoginForm = (props) => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        axios.get('http://localhost:8000/api/users/byemail/' + email + '/' + password)
+        axios
+            .post(
+                'http://localhost:8000/api/users/login',
+                {
+                    email: email,
+                    password: password
+                },
+                {
+                    withCredentials: true
+                }
+            )
             .then(res=>{
-                console.log(res);
-                console.log(res.data.user[0]);
-                props.changeUser(res.data.user[0]);
+                console.log("res", res);
+                console.log("res data", res.data);
                 navigate('/dashboard');
             })
-            .catch(err=>console.log(err))
+            .catch(err=>{
+                console.log(err.response.data);
+                setErrorMessage(err.response.data.message);
+            })
     }
     
     return (
         <form onSubmit={onSubmitHandler}>
-            <h1>Sign In</h1>
+            <img src={logo} alt="logo" style={styles.logo}/>
+            <h2>Welcome to Meal Planner</h2>
+            <p>{errorMessage ? errorMessage : null}</p>
             <p>
                 <label>Email</label><br/>
                 <input type="text" onChange = {(e)=>setEmail(e.target.value)}/>
             </p>
             <p>
                 <label>Password</label><br/>
-                <input type="text" onChange = {(e)=>setPassword(e.target.value)}/>
+                <input type="password" onChange = {(e)=>setPassword(e.target.value)}/>
             </p>
             <input type="submit"/>
             <p>Don't have an account? Register <Link to = "/register">Here</Link></p>

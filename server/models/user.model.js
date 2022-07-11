@@ -1,4 +1,6 @@
+const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
+
 // const Recipe = require('../models/recipe.model');
 
 var validateEmail = function(email) {
@@ -31,6 +33,25 @@ const UserSchema = new mongoose.Schema({
     // recipes: {
     //     type: [Recipe.RecipeSchema]
     // }
+}, {timestamps: true});
+
+UserSchema.virtual('confirmPassword')
+    .get(() => this._confirmPassword)
+    .set(value => this._confirmPassword = value);
+
+UserSchema.pre('validate', function(next){
+    if(this._password !== this._confirmPassword) {
+        this.invalidate('confirmPassword', 'Passwords must match');
+    }
+    next();
+});
+
+UserSchema.pre('save', function(next){
+    bcrypt.hash(this.password, 10)
+    .then(hash => {
+        this.password = hash;
+        next();
+    });
 });
 
 const User = mongoose.model('User', UserSchema);

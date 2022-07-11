@@ -27,7 +27,6 @@ var styles = {
 }
 
 const RecipeCard = (props) => {
-    const user = props.user;
     const createdBy = props.recipe.createdBy[0][0];
     return (
         <div id="Card" style={{
