@@ -8,6 +8,7 @@ import NewRecipe from './views/NewRecipe';
 import Recipe from './views/Recipe';
 import MyPlan from './views/MyPlan';
 import EditRecipe from './views/EditRecipe';
+import RecipeBook from './views/RecipeBook';
 
 function App() {
   const [user, setUser] = useState({});
@@ -23,6 +24,7 @@ function App() {
           <Route element={<EditRecipe user={user}/>} path="/recipes/edit/:id"/>
           <Route element={<Recipe user={user}/>} path="/recipes/:id"/>
           <Route element={<MyPlan user={user}/>} path="/myplan"/>
+          <Route element={<RecipeBook user={user}/>} path="/recipebook"/>
         </Routes>
       </BrowserRouter>
     </div>

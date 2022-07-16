@@ -2,6 +2,14 @@ const Recipe = require('../models/recipe.model');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
 
+module.exports.findMultiple = (req, res) => {
+    Recipe.find({_id: {$in: req.body}})
+        .then((recipes) => {
+            res.json({ recipes: recipes})
+        })
+        .catch((err)=>{
+            res.json({ message: 'Something went wrong', error: err})
+        });}
 
 module.exports.findAllRecipes = (req, res) => {
     Recipe.find()

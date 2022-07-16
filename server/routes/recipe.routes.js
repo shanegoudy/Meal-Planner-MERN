@@ -7,5 +7,6 @@ module.exports = app => {
     app.get("/api/recipesbyuser/:email", authenticate, RecipeController.findAllRecipesByUser);
     app.put('/api/recipes/:id', authenticate, RecipeController.updateExistingRecipe);
     app.post('/api/recipes', authenticate, RecipeController.createNewRecipe);
+    app.post('/api/multirecipes', authenticate, RecipeController.findMultiple);
     app.delete('/api/recipes/:id', authenticate, RecipeController.deleteAnExistingRecipe);
 }

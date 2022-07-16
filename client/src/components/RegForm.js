@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../assets/images/logo.png';
 
 const styles = {
     logo : {
-        height: '6vh',
+        height: '10vh',
         margin: '10vh .5vh .5vh .5vh'
     }
 }
@@ -18,6 +18,32 @@ const RegForm = (props) => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
+    const onBackButtonHandler = (e) => {
+        navigate('/');
+    };
+
+    const registerPlan = (plan) => {
+        axios.post('http://localhost:8000/api/plans', plan)
+            .then(res=>{
+                console.log(res);
+                navigate('/');
+            })
+            .catch(err=>{
+                console.log(err.response.data.errors);
+            })
+    };
+
+    const registerBook = (book) => {
+        axios.post('http://localhost:8000/api/books', book)
+            .then(res=>{
+                console.log(res);
+                navigate('/');
+            })
+            .catch(err=>{
+                console.log(err.response.data.errors);
+            })
+    };
+
     const onSubmitHandler = (e) => {
         e.preventDefault();
         axios.post('http://localhost:8000/api/users', {
@@ -33,16 +59,28 @@ const RegForm = (props) => {
                     setErrors(res.data.error.errors);
                     console.log("errors:" + res.data.error.errors);
                 } else {
-                    navigate('/');
+                    console.log(res.data.user);
+                    console.log('successful user registration!');
+                    var newPlan = {
+                        user: res.data.user._id,
+                        recipes: []
+                    };
+                    var newBook = {
+                        user: res.data.user._id,
+                        recipes: []
+                    };
+                    registerPlan(newPlan);
+                    registerBook(newBook);
                 }
             })
             .catch(err=>{
                 console.log(err.response.data.errors);
                 setErrors(err.response.data.errors);
             })
-    }
+    };
     
     return (
+        <>
         <form onSubmit={onSubmitHandler}>
             <img src={logo} alt="logo" style={styles.logo}/>
             <h2>Registration</h2>
@@ -88,6 +126,10 @@ const RegForm = (props) => {
             }</p>
             <input type="submit"/>
         </form>
+        <form onSubmit={onBackButtonHandler}>
+            <input type="submit" value="Back"/>
+        </form>
+        </>
     )
 }
 export default RegForm;

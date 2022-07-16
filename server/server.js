@@ -21,5 +21,9 @@ const MeasurementRoutes = require("./routes/measurement.routes");
 MeasurementRoutes(app);
 const CategoryRoutes = require("./routes/category.routes");
 CategoryRoutes(app);
+const PlanRoutes = require("./routes/plan.routes");
+PlanRoutes(app);
+const RecipeBookRoutes = require("./routes/recipeBook.routes");
+RecipeBookRoutes(app);
 
 app.listen(process.env.MY_PORT, () => console.log('Listening on port:' + process.env.MY_PORT));

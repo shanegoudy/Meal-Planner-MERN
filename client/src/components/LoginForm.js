@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link} from 'react-router-dom';
 import axios from 'axios';
 import logo from '../assets/images/logo.png';
 
 const styles = {
     logo : {
-        height: '6vh',
+        height: '10vh',
         margin: '10vh .5vh .5vh .5vh'
     }
 }
@@ -43,7 +43,6 @@ const LoginForm = (props) => {
     return (
         <form onSubmit={onSubmitHandler}>
             <img src={logo} alt="logo" style={styles.logo}/>
-            <h2>Welcome to Meal Planner</h2>
             <p>{errorMessage ? errorMessage : null}</p>
             <p>
                 <label>Email</label><br/>

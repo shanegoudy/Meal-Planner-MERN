@@ -14,8 +14,8 @@ module.exports.findAllUsers = (req, res) => {
 
 module.exports.findOneUser = (req, res) => {
     User.findOne({ _id: req.params.id })
-        .then(oneSingleUser => {
-            res.json({ user: oneSingleUser })
+        .then(user => {
+            res.json(user)
         })
         .catch((err) => {
             res.json({ message: 'Error finding one user', error: err })
@@ -142,7 +142,7 @@ module.exports.logout = (req, res) => {
     console.log("logging out!");
     res.clearCookie('usertoken');
     res.json({
-        message: "You have successfully logged out!"
+        message: "userToken was successfully cleared!"
     })
 }
 

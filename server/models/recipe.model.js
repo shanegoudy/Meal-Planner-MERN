@@ -16,32 +16,25 @@ const RecipeSchema = new mongoose.Schema({
     instructions: {
         type: String
     },
-    // ingredients: {
-    //     type: [
-    //         [
-    //             {
-    //                 type: Number,
-    //                 required: [true, "Amount is required"]
-    //             },
-    //             {
-    //                 type: Measurement.MeasurementSchema 
-    //             },
-    //             {
-    //                 type: Ingredient.IngredientSchema
-    //             }
-    //         ]
-    //     ],
-    // },
     ingredients: {
         type:[[Ingredient.IngredientSchema]]
     },
     hyperlink: {
-        type: String
+        type: String,
+        unique: [true, "Listed link is already in use"],
+    },
+    image: {
+        type: String,
+        required: [true, "Image url is required"]
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: [true, "Created by is required"]
+    },
+    likedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     }
 });
 

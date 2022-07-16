@@ -9,10 +9,9 @@ const styles = {
         margin: 0,
         padding: 0,
         width: '80vw',
-        height: '100em',
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, 250px)',
-        gridAutoRows: '10px',
+        gridTemplateColumns: 'repeat(auto-fill, 15vw)',
+        gridAutoRows: '.7vw',
         position: 'absolute',
         left: '50%',
         transform: 'translateX(-50%)',
@@ -25,6 +24,7 @@ const styles = {
 const Dashboard = (props) => {
     const [recipes, setRecipes] = useState([]);
     const [user, setUser] = useState({});
+    
     useEffect(() => {
         axios.get("http://localhost:8000/api/user",
             { withCredentials: true }
@@ -45,9 +45,10 @@ const Dashboard = (props) => {
                 var recipeData = res.data.recipes;
                 var rows = [];
                 for(var i=0;i<recipeData.length;i++){
-                    rows.push(<RecipeCard key={i} recipe={recipeData[i]} user={user} size={"small"}/>);
+                    rows.push(<RecipeCard key={i} recipe={recipeData[i]} size={"small"}/>);
                 }
                 console.log("rows:" + rows);
+                console.log(rows[0]);
                 setRecipes(rows);
                 console.log(recipes);
             })

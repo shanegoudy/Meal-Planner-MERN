@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../components/Header';
-// import placeholder from '../assets/images/placeholder.png';
 
 const Recipe = (props) => {
     const { id } = useParams();
@@ -37,7 +36,7 @@ const Recipe = (props) => {
 
     const deleteHandler = (e) => {
         e.preventDefault();
-        axios.delete('http://localhost:8000/api/recipes/' + id)
+        axios.delete('http://localhost:8000/api/recipes/' + id, { withCredentials: true })
             .then(res => {
                 navigate("/dashboard");
             })
@@ -49,25 +48,36 @@ const Recipe = (props) => {
             .then(res => {
                 console.log(res);
                 setRecipe(res.data.recipe);
-                setCreatedBy(res.data.recipe.createdBy[0][0]);
                 generateIngrList(res.data.recipe.ingredients[0]);
                 generateTagsList(res.data.recipe.categories[0]);
                 console.log(recipe);
+                axios.get("http://localhost:8000/api/users/" + res.data.recipe.createdBy)
+                    .then((userRes) => {
+                        console.log(userRes.data);
+                        console.log(userRes.data.firstName);
+                        setCreatedBy(userRes.data);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
             })
             .catch(err => console.log(err))
     }, [])
+
+
+
     return (
         <>
         <Header route="recipe"/>
         <h1>{recipe.name}</h1>
         <h3>Submitted by:
             <Link to={"/user/" + createdBy._id}> 
-                {" " + createdBy.first_name + " " + createdBy.last_name}
+                {" " + createdBy.firstName + " " + createdBy.lastName}
             </Link>
         </h3>
-        <img src='https://natashaskitchen.com/wp-content/uploads/2020/03/Pan-Seared-Steak-4.jpg' alt="placeholder image" style={{width: "300px"}}/>
+        <img src={recipe.image} alt="recipe image" style={{width: "300px"}}/>
         <h3>Hyperlink:</h3>
-        <p>{recipe.hyperlink}</p>
+        <a href={recipe.hyperlink}>{recipe.hyperlink}</a>
         <h3>Ingredients:</h3>
         {ingredientsList}
         <h3>Instructions:</h3>

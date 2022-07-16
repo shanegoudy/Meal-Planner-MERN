@@ -30,12 +30,14 @@ const NewRecipe = (props) => {
     const [initCats, setInitCats] = useState([]);
     const [initIngrs, setInitIngrs] = useState([]);
     const [loaded, setLoaded] = useState(false);
+    const [imgSrc, setImgSrc] = useState('');
 
     const [newRecipe, setNewRecipe] = useState({
         categories: [],
         name: "",
         instructions: "",
         ingredients: [],
+        image: "",
         hyperlink: "",
         createdBy: {}
     });
@@ -56,7 +58,6 @@ const NewRecipe = (props) => {
                     }
                     setIngrOptions(newIngrOptions)
                     console.log("ingOptions:" + ingrOptions)
-                    console.log("user:"+ props.user)
                 const data2 = await axios.get('http://localhost:8000/api/categories')
                     console.log("data2"+ data2)
                     var newTagOptions = []
@@ -97,8 +98,10 @@ const NewRecipe = (props) => {
                         instructions: res.data.recipe.instructions,
                         ingredients: res.data.recipe.ingredients,
                         hyperlink: res.data.recipe.hyperlink,
+                        image: res.data.recipe.image,
                         createdBy: res.data.recipe.createdBy
                     });
+                    setImgSrc(res.data.recipe.image);
                     setLoaded(true);
                     console.log(ogRecipe);
                     console.log(newRecipe);
@@ -120,6 +123,7 @@ const NewRecipe = (props) => {
             instructions: oldRecipe.instructions,
             ingredients: oldRecipe.ingredients,
             hyperlink: oldRecipe.hyperlink,
+            image: oldRecipe.image,
             createdBy: oldRecipe.createdBy
         });
         const { action } = actionMeta;
@@ -149,6 +153,7 @@ const NewRecipe = (props) => {
             instructions: oldRecipe.instructions,
             ingredients: newIngrs,
             hyperlink: oldRecipe.hyperlink,
+            image: oldRecipe.image,
             createdBy: oldRecipe.createdBy
         });
         const { action } = actionMeta;
@@ -174,6 +179,7 @@ const NewRecipe = (props) => {
             instructions: oldRecipe.instructions,
             ingredients: oldRecipe.ingredients,
             hyperlink: oldRecipe.hyperlink,
+            image: oldRecipe.image,
             createdBy: oldRecipe.createdBy
         });
     };
@@ -186,6 +192,7 @@ const NewRecipe = (props) => {
             instructions: newInstr,
             ingredients: oldRecipe.ingredients,
             hyperlink: oldRecipe.hyperlink,
+            image: oldRecipe.image,
             createdBy: oldRecipe.createdBy
         });
     };
@@ -198,13 +205,32 @@ const NewRecipe = (props) => {
             instructions: oldRecipe.instructions,
             ingredients: oldRecipe.ingredients,
             hyperlink: newHyper,
+            image: oldRecipe.image,
             createdBy: oldRecipe.createdBy
         });
     }
 
+    const handleImageChange= (newImage) => {
+        const oldRecipe = newRecipe;
+        setNewRecipe({
+            categories: oldRecipe.categories,
+            name: oldRecipe.name,
+            instructions: oldRecipe.instructions,
+            ingredients: oldRecipe.ingredients,
+            hyperlink: oldRecipe.hyperlink,
+            image: newImage,
+            createdBy: oldRecipe.createdBy
+        });
+        setImgSrc(newImage);
+    }
+
+    const imageError=()=>{
+        setImgSrc("https://natashaskitchen.com/wp-content/uploads/2020/03/Pan-Seared-Steak-4.jpg")
+    }
+
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        axios.put('http://localhost:8000/api/recipes/' + id, newRecipe)
+        axios.put('http://localhost:8000/api/recipes/' + id, newRecipe, {withCredentials: true})
             .then(res=>{
                 console.log(newRecipe);
                 console.log(res.data);
@@ -231,6 +257,9 @@ const NewRecipe = (props) => {
                     errors.name ? 
                     errors.name.message : null
                 }</p>
+                <img src={imgSrc} alt="Recipe Image" onError={imageError} style={styles.image}/>
+                <h2>Image URL:</h2>
+                <input type="text" defaultValue={ogRecipe.image} onChange = {(e)=>handleImageChange(e.target.value)}/>
                 <h2>Hyperlink:</h2>
                 <input type="text" defaultValue={ogRecipe.hyperlink} onChange = {(e)=>handleHyperChange(e.target.value)}/>
                 <p>{

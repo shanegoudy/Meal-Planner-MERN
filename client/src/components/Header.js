@@ -20,7 +20,8 @@ const styles = {
         height: '4vh',
         margin: '.5vh',
         backgroundColor: 'white',
-        border: 'none' 
+        border: 'none',
+        cursor: 'pointer' 
     },
     buttonHighlighted : {
         height: '4vh',
