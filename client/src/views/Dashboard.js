@@ -45,7 +45,7 @@ const Dashboard = (props) => {
                 var recipeData = res.data.recipes;
                 var rows = [];
                 for(var i=0;i<recipeData.length;i++){
-                    rows.push(<RecipeCard key={i} recipe={recipeData[i]} size={"small"}/>);
+                    rows.push(<RecipeCard key={i} recipe={recipeData[i]} dashboard='true' size={"small"}/>);
                 }
                 console.log("rows:" + rows);
                 console.log(rows[0]);
