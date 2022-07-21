@@ -31,6 +31,7 @@ const NewRecipe = (props) => {
     const [initIngrs, setInitIngrs] = useState([]);
     const [loaded, setLoaded] = useState(false);
     const [imgSrc, setImgSrc] = useState('');
+    const [user, setUser] = useState({});
 
     const [newRecipe, setNewRecipe] = useState({
         categories: [],
@@ -45,6 +46,9 @@ const NewRecipe = (props) => {
     useEffect(() => {
         (
             async () => {
+                const userData = await axios.get("http://localhost:8000/api/user", { withCredentials: true })
+                    console.log(userData);
+                    setUser(userData.data);
                 const data1 = await axios.get('http://localhost:8000/api/ingredients')
                     console.log("data1"+ data1)
                     var newIngrOptions = []
@@ -246,8 +250,9 @@ const NewRecipe = (props) => {
 
     return (
         <>
-        <Header route="editRecipe"/>
+        <Header route="editRecipe" user={user}/>
         <div style={styles.div}>
+        <h1>UPDATE FUCTIONS!!!!!</h1>
         <h1>Edit Recipe:</h1>
         {loaded && (
             <form onSubmit={onSubmitHandler}>

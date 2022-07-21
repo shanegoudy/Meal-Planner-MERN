@@ -9,16 +9,43 @@ const styles = {
         margin: 0,
         padding: 0,
         width: '80vw',
-        height: '100em',
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, 250px)',
-        gridAutoRows: '10px',
-        position: 'absolute',
+        gridTemplateColumns: 'repeat(auto-fill, 15vw)',
+        gridAutoRows: '.7vw',
+        position: 'relative',
         left: '50%',
         transform: 'translateX(-50%)',
         justifyContent: 'center',
-        backgroundColor: 'white',
+        backgroundColor: 'rgba(240,82,35,.2)',
         borderRadius: '16px',
+    },
+    button: {
+        margin: '.5vh',
+        fontSize: '1.5vw',
+    },
+    input: {
+        width: '3vw',
+        fontSize: '1.5vw',
+        borderRadius: '5px',
+        textAlign: 'center',
+    },
+    form: {
+        margin: 0,
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    label: {
+        fontWeight: 'normal',
+        color: '#f05223',
+    },
+    main: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '90vw',
+        backgroundColor: 'rgba(240,82,35,.2)',
+        borderRadius: '1vw'
     }
 }
 
@@ -141,18 +168,25 @@ const MyPlan = (props) => {
 
     return (
         <>
-        <Header route="myPlan"/>
-        <div styles={styles.pin_container}>
-            {mealPlan}
+        <Header route="myPlan" user={user}/>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '-3vh'}}>
+            <div style={{...styles.main}}>
+                <div style={{...styles.pin_container}}>
+                    {mealPlan}
+                </div>
+                <form onSubmit={generatePlanHandler} style={{...styles.form}}>
+                    <div>
+                    <label style={{...styles.label}}> Meals: </label>
+                    <input type="number" min="1" max="30" step="1" value={planLength} style={{...styles.input}} onChange = {(e)=>setPlanLength(e.target.value)}/>
+                    </div>
+                    <input type="submit" style={{...styles.button}} value="Generate Plan"/>
+                </form>
+                <div>
+                    <h4>Shopping List:</h4>
+                    {shoppingList}
+                </div>
+            </div>
         </div>
-        <div>
-            <h4>Shopping List:</h4>
-            {shoppingList}
-        </div>
-        <form onSubmit={generatePlanHandler}>
-            <input type="number" min="1" max="30" step="1" value={planLength} onChange = {(e)=>setPlanLength(e.target.value)}/>
-            <input type="submit" value="Generate Plan"/>
-        </form>
         </>
     )
 }

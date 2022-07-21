@@ -36,3 +36,53 @@
     transform: rotate(360deg);
   }
 }
+
+label {
+  font-size: 1.5vw;
+  font-weight: bold;
+}
+
+input[type=submit] {
+  color: #f05223;
+  border: 0;
+  background-color: white;
+  font-size: 1.25vw;
+  border-radius: 5px;
+  padding: .5vw;
+}
+
+input[type=submit]:hover {
+  background-color: #f58c6c;
+  color: white;
+}
+
+input[type=text] {
+  background-color: transparent;
+  border: 0;
+}
+
+input[type=number] {
+  background-color: transparent;
+  color:#f58c6c;
+  border: 0;
+}
+
+input[type=number]:hover {
+  background-color: #f58c6c;
+  color: white;
+  border: 0;
+}
+
+button {
+  color: #f05223;
+  border: 0;
+  background-color: white;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #f58c6c;
+  color: white;
+}
+
+

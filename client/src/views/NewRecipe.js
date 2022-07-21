@@ -8,19 +8,46 @@ import CreatableSelect, { actionMeta, OnChangeValue } from 'react-select/creatab
 
 const styles = {
     select : {
-        width: '100em'
+        width: '10vw',
+
     },
-    div : {
+    main : {
         width: '30vw',
-        margin: 'auto'
+        margin: '-20px auto 20px auto',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    form : {
+        width: '80vw',
+        backgroundColor: 'rgba(240,82,35,.2)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: '20px',
+        padding: '20px'
     },
     instructions : {
         height: '10vh',
-        width: '300px'
+        width: '30vw',
     },
     image : {
         marginTop: '20px',
-        width: '10vw'
+        marginRight: '20px',
+        width: '35vw',
+        display: 'block',
+        borderRadius: '10px'
+    },
+    details: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'start'
+    },
+    detailsSubmit: {
+
+    },
+    name: {
+        fontSize: '3vw'
     }
 }
 
@@ -37,11 +64,15 @@ const NewRecipe = (props) => {
     const [hyperlink, setHyperlink] = useState("");
     const [image, setImage] = useState('');
     const [imgSrc, setImgSrc] = useState('');
+    const [user, setUser] = useState({});
 
 
     useEffect(() => {
         (
             async () => {
+                const userData = await axios.get("http://localhost:8000/api/user", { withCredentials: true })
+                    console.log(userData);
+                    setUser(userData.data);
                 const data2 = await axios.get('http://localhost:8000/api/categories')
                     console.log("data2"+ data2)
                     var newTagOptions = []
@@ -216,46 +247,45 @@ const NewRecipe = (props) => {
 
     return (
         <>
-        <Header route="newRecipe"/>
-        <div style={styles.div}>
-        <h1>New Recipe:</h1>
-        <form onSubmit={onSubmitHandler}>
-            <h2>Name:</h2>
-            <input type="text" onChange = {(e)=>handleNameChange(e.target.value)}/>
-            <p>{
-                errors.name ? 
-                errors.name.message : null
-            }</p>
-            <img src={imgSrc} alt="Recipe Image" onError={imageError} style={styles.image}/>
-            <h2>Image URL:</h2>
-            <input type="text" onChange = {(e)=>handleImageChange(e.target.value)}/>
-            <h2>Hyperlink:</h2>
-            <input type="text" onChange = {(e)=>handleHyperChange(e.target.value)}/>
-            <p>{
-                errors.hyperlink ? 
-                errors.hyperlink.message : null
-            }</p>
-            <h2>Ingredients:</h2>
-            <CreatableSelect options={ingrOptions} isMulti components={animatedComponents} closeMenuOnSelect={false} onChange = {handleIngrChange} style={styles.select}/>
-            <p>{
-                errors.ingredients ? 
-                errors.ingredients.message : null
-            }</p>
-            <h2>Instructions:</h2>
-            <input type="textarea" onChange = {(e)=>handleInstrChange(e.target.value)} style={styles.instructions}/>
-            <p>{
-                errors.instructions ? 
-                errors.instructions.message : null
-            }</p>
-            <h2>Tags:</h2>
-            <CreatableSelect options={tagOptions} isMulti components={animatedComponents} closeMenuOnSelect={false} onChange = {handleTagsChange} style={styles.select}/>
-            <p>{
-                errors.categories ? 
-                errors.categories.message : null
-            }</p>
-            <br/>
-            <input type="submit"/>
-        </form>
+        <Header route="newRecipe" user={user}/>
+        <div style={styles.main}>
+            <form onSubmit={onSubmitHandler} style={{...styles.form}}>
+                <div>
+                    <img src={imgSrc} alt="Recipe Image" onError={imageError} style={styles.image}/>
+                    <input type="text" placeholder="Image Link" onChange = {(e)=>handleImageChange(e.target.value)}/>
+                </div>
+                <div style={{...styles.detailsSubmit}}>
+                    <div style={{...styles.details}}>
+                        <input type="text" placeholder="Add name" onChange = {(e)=>handleNameChange(e.target.value)} style={{...styles.name}}/>
+                        <p>{
+                            errors.name ? 
+                            errors.name.message : null
+                        }</p>
+                        <input type="text" placeholder="Website: (optional)" onChange = {(e)=>handleHyperChange(e.target.value)}/>
+                        <p>{
+                            errors.hyperlink ? 
+                            errors.hyperlink.message : null
+                        }</p>
+                        <input type="textarea" placeholder='Instructions: (optional)' onChange = {(e)=>handleInstrChange(e.target.value)} style={styles.instructions}/>
+                        <p>{
+                            errors.instructions ? 
+                            errors.instructions.message : null
+                        }</p>
+                        <CreatableSelect placeholder="Ingredients:" options={ingrOptions} isMulti components={animatedComponents} closeMenuOnSelect={false} onChange = {handleIngrChange} style={styles.select}/>
+                        <p>{
+                            errors.ingredients ? 
+                            errors.ingredients.message : null
+                        }</p>
+                        <CreatableSelect placeholder="Tags:" options={tagOptions} isMulti components={animatedComponents} closeMenuOnSelect={false} onChange = {handleTagsChange} style={styles.select}/>
+                        <p>{
+                            errors.categories ? 
+                            errors.categories.message : null
+                        }</p>
+                        <br/>
+                    </div>
+                    <input type="submit"/>
+                </div>
+            </form>
         </div>
         </>
     )

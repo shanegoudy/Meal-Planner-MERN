@@ -7,7 +7,7 @@ module.exports = {
             res.json(book)
         })
         .catch((err) => {
-            res.json({ message: 'Error finding one plan', error: err })
+            res.json({ message: 'Error finding one book', error: err })
         });
     },
     

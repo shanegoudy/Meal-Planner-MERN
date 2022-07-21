@@ -1,6 +1,8 @@
+import { white } from 'material-ui/styles/colors';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
+import ProfileButton from './ProfileButton';
 
 const styles = {
     div : {
@@ -19,9 +21,8 @@ const styles = {
     button : {
         height: '4vh',
         margin: '.5vh',
-        backgroundColor: 'white',
         border: 'none',
-        cursor: 'pointer' 
+        cursor: 'pointer',
     },
     buttonHighlighted : {
         height: '4vh',
@@ -84,6 +85,7 @@ const Header = (props) => {
         <div id="Card" style={{
             ...styles.div
         }}>
+            <ProfileButton user={props.user}/>
             <Link to = "/dashboard" style={{
             ...styles.link
             }}>

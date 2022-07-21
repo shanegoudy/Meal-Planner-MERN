@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Paper } from '@material-ui/core'
 import placeholder from '../assets/images/placeholder.png';
+import AddRecipeBox from './AddRecipeBox';
 
 const RecipeCard = (props) => {
     const [createdBy, setCreatedBy] = useState({});
@@ -15,7 +16,8 @@ const RecipeCard = (props) => {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            position: 'relative'
         },
         small: {
             gridRowEnd: 'span 26'
@@ -32,7 +34,7 @@ const RecipeCard = (props) => {
             // display: 'none',
             zIndex: '1',
             backgroundColor: 'black',
-        }
+        },
     }
 
     useEffect(() => {
@@ -61,18 +63,25 @@ const RecipeCard = (props) => {
             ...styles.card,
             ...styles[props.size]
         }}>
-            <Link to={"/recipes/" + props.recipe._id}>
-                <img id="image" src={props.recipe.image} style={{ width: '10vw', height: '10vw', borderRadius: '10px'}}/>
-            </Link>
-            <h4 style={{ fontSize: '1vw', margin: '.2vw', width: '11vw', overflowWrap: 'normal'}}>{props.recipe.name}</h4>
-            <h5 style={{ textDecoration: 'none', fontSize: '1vw', margin: '.2vw'}}>
-
-                <Link to={"/user/" + createdBy._id} style={{ textDecoration: 'none'}}>
-                    {" " + createdBy.firstName + " " + createdBy.lastName}
+            <div style={{ position:'absolute', zIndex:'0'}}>
+                <Link to={"/recipes/" + props.recipe._id}>
+                    <img id="image" src={props.recipe.image} style={{ width: '10vw', height: '10vw', borderRadius: '10px'}}/>
                 </Link>
-            </h5>
+                <h4 style={{ fontSize: '1vw', margin: '.2vw', width: '11vw', overflowWrap: 'normal'}}>{props.recipe.name}</h4>
+                <h5 style={{ textDecoration: 'none', fontSize: '1vw', margin: '.2vw'}}>
+                    <Link to={"/user/" + createdBy._id} style={{ textDecoration: 'none'}}>
+                        {" " + createdBy.firstName + " " + createdBy.lastName}
+                    </Link>
+                </h5>
+            </div>
+            <div>
+                {
+                    props.dashboard ? <AddRecipeBox user={props.user} recipe={props.recipe} book={props.book}/> : null
+                }       
+            </div>
         </div>
     )
 }
 export default RecipeCard;
 
+9

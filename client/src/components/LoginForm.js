@@ -5,7 +5,7 @@ import logo from '../assets/images/logo.png';
 
 const styles = {
     logo : {
-        height: '10vh',
+        height: '8vw',
         margin: '10vh .5vh .5vh .5vh'
     }
 }
@@ -31,7 +31,6 @@ const LoginForm = (props) => {
             )
             .then(res=>{
                 console.log("res", res);
-                console.log("res data", res.data);
                 navigate('/dashboard');
             })
             .catch(err=>{
@@ -46,14 +45,14 @@ const LoginForm = (props) => {
             <p>{errorMessage ? errorMessage : null}</p>
             <p>
                 <label>Email</label><br/>
-                <input type="text" onChange = {(e)=>setEmail(e.target.value)}/>
+                <input type="email" style={{...styles.email}} onChange = {(e)=>setEmail(e.target.value)}/>
             </p>
             <p>
                 <label>Password</label><br/>
                 <input type="password" onChange = {(e)=>setPassword(e.target.value)}/>
             </p>
             <input type="submit"/>
-            <p>Don't have an account? Register <Link to = "/register">Here</Link></p>
+            <p style={{fontSize: "1.5vw"}}>Don't have an account? Register <Link to = "/register">Here</Link></p>
         </form>
     )
 }

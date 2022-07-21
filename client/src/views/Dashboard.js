@@ -24,39 +24,31 @@ const styles = {
 const Dashboard = (props) => {
     const [recipes, setRecipes] = useState([]);
     const [user, setUser] = useState({});
-    
-    useEffect(() => {
-        axios.get("http://localhost:8000/api/user",
-            { withCredentials: true }
-        )
-            .then((res) => {
-                console.log(res.data);
-                setUser(res.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }, [])
+    const navigate = useNavigate();
 
-    useEffect(()=>{
-        axios.get('http://localhost:8000/api/recipes')
-            .then(res => {
-                console.log(res);
-                var recipeData = res.data.recipes;
-                var rows = [];
-                for(var i=0;i<recipeData.length;i++){
-                    rows.push(<RecipeCard key={i} recipe={recipeData[i]} dashboard='true' size={"small"}/>);
-                }
-                console.log("rows:" + rows);
-                console.log(rows[0]);
-                setRecipes(rows);
-                console.log(recipes);
-            })
-            .catch(err => console.log(err))
-    }, [])
+    useEffect(() => {
+        (
+            async () => {
+                const userData = await axios.get("http://localhost:8000/api/user", { withCredentials: true })
+                    console.log(userData);
+                    setUser(userData.data);
+                const axiosRecipesData = await axios.get('http://localhost:8000/api/recipes')
+                    var recipeData = axiosRecipesData.data.recipes;
+                    var rows = [];
+                    for(var i=0;i<recipeData.length;i++){
+                        rows.push(<RecipeCard key={i} recipe={recipeData[i]} user={userData.data} dashboard='true' size={"small"}/>);
+                    }
+                    console.log("rows:" + rows);
+                    console.log(rows[0]);
+                    setRecipes(rows);
+                    console.log(recipes);
+            }
+        )()
+    },[])
+
     return (
         <>
-        <Header route="dashboard"/>
+        <Header route="dashboard" user={user}/>
         <div style={styles.pin_container}>
             {recipes}
         </div>
