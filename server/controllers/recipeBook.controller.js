@@ -1,4 +1,4 @@
-const RecipeBook = require('../models/RecipeBook.model');
+const RecipeBook = require('../models/recipeBook.model');
 
 module.exports = {
     findOne: (req, res) => {
