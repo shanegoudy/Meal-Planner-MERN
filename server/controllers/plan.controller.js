@@ -1,4 +1,4 @@
-const Plan = require('../models/Plan.model');
+const Plan = require('../models/plan.model');
 
 module.exports = {
     findOne: (req, res) => {
